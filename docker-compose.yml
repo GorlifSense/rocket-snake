@@ -1,0 +1,13 @@
+version: '3'
+services:
+  rocket-snake:
+    build: .
+    image: rocket-snake
+    container_name: rocket-snake
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/usr/src/app/src
+    environment:
+      - APP_HOST=0.0.0.0
+      - APP_PORT=80

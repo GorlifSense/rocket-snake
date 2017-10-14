@@ -4,7 +4,8 @@
   "description": "Web snake implementation with rockets!",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "nodemon -L app.js"
   },
   "repository": {
     "type": "git",
