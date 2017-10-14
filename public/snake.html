@@ -3,8 +3,68 @@
 <head>
   <meta charset="utf-8">
   <title>Rocket-Snake</title>
+  <style>
+    body {
+      background-image: url(img/snakebac.jpg);
+      background-size: cover;
+      background-attachment: fixed;
+    }
+    .torpeds{
+      position: fixed;
+      top: 150px;
+      left: 400px;
+      transform: rotate(70deg);
+      border: 0px;   
+    }
+    .rocket{
+      position: fixed;
+      transform: rotate(110deg);
+      display: fixed;
+      margin-top: 255px;
+      margin-left: 800px;
+      -webkit-animation: 0.1s tremor ease-out infinite;  
+      animation: 0.2s tremor ease-out infinite;    
+    }
+    @-webkit-keyframes tremor {
+      0%, 25% {
+        left: -1px;
+      }
+      50%, 100% {
+        left: 1px;
+      }
+    }
+    button {
+      width: 400px;
+      height: 400px;
+      background: transparent;
+      border: 15px solid rgba(0,0,0, 10);
+      border-radius: 200px;
+      position: absolute;
+      font-size: 100px;
+      font-weight: bold;
+      left: 450px;
+      top: 200px;
+      outline: none;
+      color:rgba(0,0,0, 10);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%{border-color: rgba(0,0,0, 0);}
+      50%{border-color: rgba(0,0,0, 10);}
+      100%{border-color: rgba(0,0,0, 0);}
+      0%{color: rgba(0,0,0, 0);}
+      50%{color: rgba(0,0,0, 10);}
+      100%{color: rgba(0,0,0, 0);}
+    }
+    a { 
+    text-decoration: none;
+    color: inherit;}
+
+  </style>
 </head>
 <body>
-
+    <button> <a href="http://snake.gorlifsense.com/"> PLAY NOW </button>
+    <div class="rocket"><img src="img/rocket.gif"></div>
+    <div class="torpeds"><img src="img/snake3.gif"> </div>
 </body>
 </html>
