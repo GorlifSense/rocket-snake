@@ -29,15 +29,19 @@ class Snake {
 
   // check if input direction is valid depends on snake position
   checkDirection(direction) {
+    const HEAD = 0;
+    const PREHEAD = 1;
+    const STEP = 1;
+
     switch (direction) {
     case 'up':
-      return !(this.body[0].y === 1 - this.body[1].y);
+      return !(this.body[HEAD].y === STEP - this.body[PREHEAD].y);
     case 'down':
-      return !(this.body[0].y === 1 + this.body[1].y);
+      return !(this.body[HEAD].y === STEP + this.body[PREHEAD].y);
     case 'left':
-      return !(this.body[0].x === 1 + this.body[1].x);
+      return !(this.body[HEAD].x === STEP + this.body[PREHEAD].x);
     case 'right':
-      return !(this.body[0].x === 1 - this.body[1].x);
+      return !(this.body[HEAD].x === STEP - this.body[PREHEAD].x);
     default:
       return false;
     }
