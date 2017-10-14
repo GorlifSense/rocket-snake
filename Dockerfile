@@ -8,18 +8,17 @@ RUN mkdir -p /usr/src/app/public
 # set up the working directory
 WORKDIR /usr/src/app
 
-# common practice is to copy package.json and install dependencies,
-# and then copy other files (don't know why)
-COPY package.json .
+# copy all files to docker image
+COPY . .
 # install only common dependencies (not dev or etc.)
-RUN npm install
+RUN npm install --production
 # install nodemon global to reach it from cmd
 RUN npm install -g nodemon
+# install webpack
+RUN npm install -g webpack
 
-# copy other files
-COPY ./app ./app
-COPY ./public ./public
-COPY app.js .
+# run webpack build
+CMD ["npm", "run", "build"]
 
 # run the app
-CMD ["npm", "start"]
+CMD ["npm", "run", "docker"]

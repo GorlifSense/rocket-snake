@@ -4,11 +4,12 @@
   "description": "Web snake implementation with rockets!",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -L app.js",
+    "start": "node app.js",
     "pretest": "npm run eslint",
     "test": "mocha",
     "eslint": "eslint",
-    "build": "webpack"
+    "build": "webpack",
+    "docker": "nodemon -L app.js"
   },
   "repository": {
     "type": "git",
