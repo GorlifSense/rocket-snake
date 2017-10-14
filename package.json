@@ -7,7 +7,7 @@
     "start": "node app.js",
     "pretest": "npm run eslint",
     "test": "npm run coverage",
-    "coverage": "istanbul cover ./node_modules/.bin/_mocha",
+    "coverage": "istanbul cover ./node_modules/.bin/_mocha -- --exit",
     "eslint": "eslint . --max-warnings 3",
     "build": "webpack",
     "docker": "nodemon -L app.js"
@@ -33,22 +33,24 @@
   },
   "homepage": "https://github.com/GorlifSense/rocket-snake#readme",
   "dependencies": {
-    "express": "^4.16.2",
-    "serve-favicon": "^2.4.5",
-    "socket.io": "^2.0.3",
-    "winston": "^2.4.0",
     "css-loader": "^0.28.7",
+    "express": "^4.16.2",
     "lodash": "^4.17.4",
     "node": "^8.3.0",
     "paper": "^0.11.5",
     "sass": "^1.0.0-beta.2",
+    "serve-favicon": "^2.4.5",
+    "socket.io": "^2.0.3",
     "style-loader": "^0.19.0",
-    "webpack": "^3.7.1"
+    "webpack": "^3.7.1",
+    "winston": "^3.0.0-rc0"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
     "eslint": "^4.8.0",
     "istanbul": "^0.4.5",
     "mocha": "^4.0.1",
+    "socket.io-client": "^2.0.3",
     "supertest": "^3.0.0"
   }
 }
