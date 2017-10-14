@@ -12,7 +12,7 @@ WORKDIR /usr/src/app
 # and then copy other files (don't know why)
 COPY package.json .
 # install only common dependencies (not dev or etc.)
-RUN npm install --production
+RUN npm install
 # install nodemon global to reach it from cmd
 RUN npm install -g nodemon
 
