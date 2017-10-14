@@ -2,3 +2,5 @@ extends: "./../.eslintrc.yml"
 env:
   browser: true
   jquery: false
+parserOptions:
+  sourceType: module

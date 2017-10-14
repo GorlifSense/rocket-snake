@@ -1,4 +1,5 @@
 import _ from 'lodash';
 import '../css/style.scss';
+import * as winston from 'winston';
 
-console.log(_.join(['ok', 'I\'m on'], ', '));
+winston.info(_.join(['ok', 'I\'m on'], ', '));
