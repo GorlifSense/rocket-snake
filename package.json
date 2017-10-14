@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node app.js",
     "pretest": "npm run eslint",
-    "test": "mocha",
-    "eslint": "eslint",
+    "test": "npm run coverage",
+    "coverage": "istanbul cover ./node_modules/.bin/_mocha",
+    "eslint": "eslint . --max-warnings 3",
     "build": "webpack",
     "docker": "nodemon -L app.js"
   },
@@ -45,6 +46,9 @@
     "webpack": "^3.7.1"
   },
   "devDependencies": {
-    "eslint": "^4.8.0"
+    "eslint": "^4.8.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^4.0.1",
+    "supertest": "^3.0.0"
   }
 }

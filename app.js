@@ -1,5 +1,8 @@
 'use strict';
 
+const DEFAULT_PORT = 4300;
+const SERVER_PORT = process.env.PORT || DEFAULT_PORT;
+
 const winston = require('winston');
 const path = require('path');
 const express = require('express');
@@ -17,12 +20,15 @@ app.get('/', (request, response) => {
   response.sendFile('index.html', {root: path.join(__dirname, 'public')});
 });
 
-const SERVER_PORT = process.env.PORT || 8080;
 app.set('port', SERVER_PORT);
 
 // Start Express server
 server.listen(app.get('port'), () => {
   winston.info('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
 });
+
+app.close = () => {
+  server.close();
+};
 
 module.exports = app;

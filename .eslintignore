@@ -1,0 +1,5 @@
+webpack.config.js
+public/js/bundle.js
+coverage
+node_modules
+.git
