@@ -4,10 +4,13 @@
   "description": "Web snake implementation with rockets!",
   "main": "index.js",
   "scripts": {
+    "start": "node app.js",
     "pretest": "npm run eslint",
-    "test": "mocha",
-    "eslint": "eslint",
-    "build": "webpack"
+    "test": "npm run coverage",
+    "coverage": "istanbul cover ./node_modules/.bin/_mocha",
+    "eslint": "eslint . --max-warnings 3",
+    "build": "webpack",
+    "docker": "nodemon -L app.js"
   },
   "repository": {
     "type": "git",
@@ -44,6 +47,9 @@
     "winston": "^2.4.0"
   },
   "devDependencies": {
-    "eslint": "^4.8.0"
+    "eslint": "^4.8.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^4.0.1",
+    "supertest": "^3.0.0"
   }
 }
