@@ -1,0 +1,32 @@
+{
+  "name": "rocket-snake",
+  "version": "0.0.0",
+  "description": "Web snake implementation with rockets!",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GorlifSense/rocket-snake.git"
+  },
+  "keywords": [
+    "snake",
+    "nodejs",
+    "game"
+  ],
+  "author": "Gorlif Sense <git@gorlifsense.com>",
+  "contributors": [
+    "Glib Ischenko <glib@gorlifsense.com> (http://fleischer.gorlifsense.com)",
+    "Belrestro <belrestro@gorlifsense.com>",
+    "ArtemDerkach <artem@gorlifsense.com>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GorlifSense/rocket-snake/issues"
+  },
+  "homepage": "https://github.com/GorlifSense/rocket-snake#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
