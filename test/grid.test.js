@@ -44,14 +44,14 @@ describe('grid', () => {
       assert.equal(snake.body.length, 3);
     });
 
-    it('should say that directiono is wright', () => {
+    it('should say that direction is wright', () => {
       const snake = new Snake('Pizza');
       snake.addPointHead(new Point(1, 2, 'snake'));
       snake.addPointHead(new Point(1, 1, 'snake'));
       assert.isTrue(snake.checkDirection('up'))
     });
 
-    it('should say that directiono is wrong', () => {
+    it('should say that direction is wrong', () => {
       const snake = new Snake('Pizza');
       snake.addPointHead(new Point(2, 2, 'snake'));
       snake.addPointHead(new Point(3, 2, 'snake'));
