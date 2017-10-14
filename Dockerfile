@@ -18,7 +18,7 @@ RUN npm install -g nodemon
 RUN npm install -g webpack
 
 # run webpack build
-CMD ["npm", "run", "build"]
+RUN npm run build
 
 # run the app
 CMD ["npm", "run", "docker"]
