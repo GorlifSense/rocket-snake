@@ -4,7 +4,9 @@
   "description": "Web snake implementation with rockets!",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "pretest": "npm run eslint",
+    "test": "mocha",
+    "eslint": "eslint"
   },
   "repository": {
     "type": "git",
@@ -29,6 +31,10 @@
   "dependencies": {
     "express": "^4.16.2",
     "serve-favicon": "^2.4.5",
-    "socket.io": "^2.0.3"
+    "socket.io": "^2.0.3",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.8.0"
   }
 }

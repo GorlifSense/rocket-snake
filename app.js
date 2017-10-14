@@ -1,5 +1,6 @@
 'use strict';
 
+const winston = require('winston');
 const path = require('path');
 const express = require('express');
 const app = express();
@@ -13,7 +14,7 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 // Redirect to the main page
 app.get('/', (request, response) => {
-  response.sendFile('index.html', { root: path.join(__dirname, 'public') });
+  response.sendFile('index.html', {root: path.join(__dirname, 'public')});
 });
 
 const SERVER_PORT = process.env.PORT || 8080;
@@ -21,7 +22,7 @@ app.set('port', SERVER_PORT);
 
 // Start Express server
 server.listen(app.get('port'), () => {
-  console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
+  winston.info('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
 });
 
 module.exports = app;
