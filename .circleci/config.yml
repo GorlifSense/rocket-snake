@@ -2,7 +2,8 @@ version: 2
 jobs:
   build:
     machine:
-      true
+      pre:
+        - sudo pip install docker-compose
     # python:
     #   version: 2.7.12
     working_directory: ~/repo
