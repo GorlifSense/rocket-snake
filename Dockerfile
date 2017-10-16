@@ -10,6 +10,10 @@ WORKDIR /usr/src/app
 
 # copy all files to docker image
 COPY . .
+
+# set npm binary path to be the same as node
+RUN npm config set scripts-prepend-node-path true
+
 # install only common dependencies (not dev or etc.)
 RUN npm install --production
 # install nodemon global to reach it from cmd
