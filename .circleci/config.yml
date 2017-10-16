@@ -6,7 +6,7 @@ jobs:
 
     # python:
     #   version: 2.7.12
-    # working_directory: ~/repo
+    working_directory: ~/repo
     steps:
       - checkout
       - run: docker-compose build
