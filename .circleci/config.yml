@@ -1,21 +1,22 @@
 version: 2
 jobs:
   build:
-    machine:
-      pre:
-        - run:
-            name: Install Docker Compose
-            command: |
-              set -x
-              curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-              chmod +x /usr/local/bin/docker-compose
+    docker:
+      - image: 17.09.0-ce-git
+
     # python:
     #   version: 2.7.12
     # working_directory: ~/repo
     steps:
       - checkout
-      - setup_remote_docker
       - run: docker-compose build
+      - run:
+          name: Install Docker Compose
+          command: |
+            set -x
+            curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
+      - setup_remote_docker
       - run: docker run -it rocket-snake /bin/sh -c "npm test"
     # dependencies:
     #   override:
