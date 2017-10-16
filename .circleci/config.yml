@@ -1,15 +1,18 @@
-machine:
-  services:
-    - docker
-  python:
-    version: 2.7.12
+version: 2
+jobs:
+  build:
+    machine:
+      services:
+        - docker
+      python:
+        version: 2.7.12
 
-dependencies:
-  override:
-    - pip install docker-compose
-  post:
-    - docker-compose up --build -d
+    dependencies:
+      override:
+        - pip install docker-compose
+      post:
+        - docker-compose up --build -d
 
-test:
-  post:
-    - docker exec -it rocket-snake /bin/sh -c "npm test"
+    test:
+      post:
+        - docker exec -it rocket-snake /bin/sh -c "npm test"
