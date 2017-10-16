@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: 17.09.0-ce-git
+      - image: 17.07.0-ce-git
 
     # python:
     #   version: 2.7.12
