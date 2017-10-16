@@ -22,8 +22,12 @@ RUN npm install -g nodemon
 RUN npm install -g webpack
 # install eslint global
 RUN npm install -g eslint
+
+RUN npm install -g istanbul
+
 # run webpack build
 RUN npm run build
+
 
 # run the app
 CMD ["npm", "run", "docker"]
