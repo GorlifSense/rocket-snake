@@ -9,20 +9,14 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
-      - run: docker-compose build
-      - run:
-          name: Install Docker Compose
-          command: |
-            set -x
-            curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-            chmod +x /usr/local/bin/docker-compose
       - setup_remote_docker
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --no-cache \
+              py-pip
+            pip install \
+              docker-compose==1.16.1 \
+              awscli==1.11.170
+      - run: docker-compose build
       - run: docker run -it rocket-snake /bin/sh -c "npm test"
-    # dependencies:
-    #   override:
-    #     - pip install docker-compose
-    #   post:
-    #     - docker-compose up --build -d
-    # test:
-    #   post:
-    #     - docker exec -it rocket-snake /bin/sh -c "npm test"
