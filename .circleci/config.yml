@@ -6,11 +6,8 @@ jobs:
     # python:
     #   version: 2.7.12
     steps:
-      - run:
-          command: |
-            ls
-            sudo find ../../ -name "docker-compose.yml"
-      # - run: docker-compose build
+      - run: docker-compose build
+      - run: docker run -it rocket-snake /bin/sh -c "npm test"
     # dependencies:
     #   override:
     #     - pip install docker-compose
