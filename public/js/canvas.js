@@ -43,7 +43,6 @@ const grid = {
     height: 40
   }
 };
-<<<<<<< HEAD
 const testRun = new Grid(grid);
 
 const snake = testRun.identifiers['test-snake1'];

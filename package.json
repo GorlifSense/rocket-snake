@@ -8,7 +8,7 @@
     "pretest": "npm run eslint",
     "test": "npm run coverage",
     "coverage": "istanbul cover ./node_modules/.bin/_mocha",
-    "eslint": "eslint . --max-warnings 3",
+    "eslint": "eslint . --max-warnings 10",
     "build": "webpack",
     "docker": "nodemon -L app.js"
   },
