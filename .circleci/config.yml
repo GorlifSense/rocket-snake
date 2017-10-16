@@ -19,4 +19,4 @@ jobs:
               docker-compose==1.16.1 \
               awscli==1.11.170
       - run: docker-compose build
-      - run: docker run -it rocket-snake /bin/sh -c "npm test"
+      - run: docker run -it rocket-snake /bin/sh -c "istanbul cover ./node_modules/.bin/_mocha"
