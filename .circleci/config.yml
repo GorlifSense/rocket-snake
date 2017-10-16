@@ -5,7 +5,9 @@ jobs:
       true
     # python:
     #   version: 2.7.12
+    working_directory: ~/repo
     steps:
+      - checkout
       - run: docker-compose build
       - run: docker run -it rocket-snake /bin/sh -c "npm test"
     # dependencies:
