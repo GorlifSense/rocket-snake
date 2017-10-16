@@ -20,7 +20,8 @@ RUN npm install --production
 RUN npm install -g nodemon
 # install webpack
 RUN npm install -g webpack
-
+# install eslint global
+RUN npm install -g eslint
 # run webpack build
 RUN npm run build
 
