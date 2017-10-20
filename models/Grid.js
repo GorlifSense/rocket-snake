@@ -1,5 +1,7 @@
 'use strict';
 
+const Point = require('./Point.js');
+
 class Grid {
 
   constructor(height, width) {
@@ -12,43 +14,32 @@ class Grid {
 
   }
 
-  placeRandomPoint(type) {
-
+  placeFoodRandom() {
     let x = 0;
     let y = 0;
+    const isPointOnGreed = (point) => point.isSameCoordinates(new Point(x, y));
 
     do {
+      x = Math.ceil(Math.random() * this.width);
+      y = Math.ceil(Math.random() * this.height);
 
-      x = Math.ceil(Math.random() * this.grid.width);
-      y = Math.ceil(Math.random() * this.grid.height);
+    } while (this.food.some(isPointOnGreed));
 
-    } while (this.grid.findPoint(new Point(x, y)));
-
-    this.food.push(new Point(x, y, type));
-
+    this.food.push(new Point(x, y, 'food'));
   }
 
   isFood(point) {
-
-    const isSame = false;
-
-    this.food.some(foodPoint => {
-
-      if (foodPint.isSameCoodinates(point)) {
-        isSame = true;
+    return this.food.some((foodPoint) => {
+      if (foodPoint.isSameCoordinates(point)) {
         return true;
       }
 
-      return false
-
+      return false;
     });
-
-    return isSame;
-
   }
 
   removeSnake(id) {
-    this.grid.snakes = this.grid.snakes.filter(snake => snake.id !== id);
+    this.snakes = this.snakes.filter((snake) => snake.id !== id);
   }
 
 }

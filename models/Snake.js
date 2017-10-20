@@ -2,19 +2,14 @@
 
 class Snake {
 
-  constructor(id, length) {
+  constructor(id) {
     this.id = id;
     this.body = [];
     this.direction = '';
-    this.futurePoint = {};
   }
 
   addPointHead(point) {
-    this.body.unshift(point);
-  }
-
-  addPointTail(point) {
-    this.body.push(point);
+    return this.body.unshift(point);
   }
 
   removePointTail() {
