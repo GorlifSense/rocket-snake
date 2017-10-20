@@ -25,7 +25,7 @@ describe('Grid model', () => {
     assert.strictEqual(grid.food.length, oldFoodCount + 1);
   });
 
-  it('should check if point on grid with input coordinates is food ', () => {
+  it('should check if point on grid with input coordinates is food', () => {
     const grid = new Grid(3, 3);
 
     grid.food = [
