@@ -16,7 +16,7 @@ class Game {
 
     this.gameState = {
       started: false,
-      ended: false,
+      ended: false
     };
 
     this.diffs = {
@@ -54,7 +54,7 @@ class Game {
     // to define length
     this.grid.snakes.forEach(snake => {
 
-      for (let i = 0; i < SNAKE_LENGTH; i += 1) {
+      for (let i = 0; i < SNAKE_LENGTH; ++i) {
         snake.addPointTail(null, null, 'snake');
       }
 
@@ -71,6 +71,7 @@ class Game {
 
       // define the snake width position
       const snakeWidthPos = snakeWidthConstPos * num;
+
       for (let i = 0; i < snake.length; i += 1) {
 
         snake.body[i].x = snakeWidthPos;
