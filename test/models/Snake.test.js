@@ -23,7 +23,7 @@ describe('Snake model', () => {
     assert.deepEqual(snake.body[0], {x: 1, y: 2, type: 'snake'});
   });
 
-  it('it should remove point from snakes tail', () => {
+  it('should remove point from snakes tail', () => {
     const snake = new Snake(123);
 
     // push dummy data ot snake body
