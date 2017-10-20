@@ -5,7 +5,7 @@ const assert = require('chai').assert;
 const Point = require('../../models/Point.js');
 
 
-describe('Point class', () => {
+describe('Point model', () => {
 
   it('should create object with 3 params', () => {
     assert.deepEqual(new Point(1, 4, 'food'), {x: 1, y: 4, type: 'food'});
