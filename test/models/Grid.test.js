@@ -44,10 +44,12 @@ describe('Grid model', () => {
     grid.snakes = [
       new Snake(1),
       new Snake(444),
-      new Snake('some id')
+      new Snake('some id'),
+      new Snake(55)
     ];
 
     grid.removeSnake(444);
+    grid.removeSnake(55);
 
     assert.deepEqual(grid.snakes, [new Snake(1), new Snake('some id')]);
   });
