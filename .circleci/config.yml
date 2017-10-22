@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:8.7
+      - image: node:8-alpine
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -39,14 +39,24 @@ jobs:
       # deploy
       - setup_remote_docker
 
-      - deploy
+      - run:
           name: Deploying docker image
           command: |
-            if [ "${CIRCLE_BRANCH}" == "master" || "$(CIRCLE_BRANCH)" == "artem/circle" ]; then
-              apk install py-pip
-              pip install awscli
-              login="$(aws ecr get-login)"
-              $(login)
-              docker tag app "${ECR_ENDPOINT}/app:${CIRCLE_SHA1}"
-              docker push "${ECR_ENDPOINT}/app:${CIRCLE_SHA1}"
-            fi
+            apk update
+            apk add py-pip
+            pip install awscli
+            aws configure set region eu-central-1
+            aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}
+            aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
+            login="$(aws ecr get-login --no-include-email)"
+            apk add docker
+            pip install docker-compose
+            ${login}
+            docker-compose build
+            ECR_ENDPOINT="660113754429.dkr.ecr.eu-central-1.amazonaws.com/rocket-snake"
+            docker tag rocket-snake "${ECR_ENDPOINT}:${CIRCLE_SHA1}"
+            docker push "${ECR_ENDPOINT}:${CIRCLE_SHA1}"
+
+
+# if [[ "${CIRCLE_BRANCH}" == "master" || "$(CIRCLE_BRANCH)" == "artem/circle" ]]; then
+# fi
