@@ -12,6 +12,10 @@ class Snake {
     return this.body.unshift(point);
   }
 
+  addPointTail(point) {
+    return this.body.push(point);
+  }
+
   removePointTail() {
     return this.body.pop();
   }

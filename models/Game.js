@@ -10,11 +10,11 @@ const SNAKE_LENGTH = 3;
 
 class Game {
 
-  constructor(options) {
+  constructor() {
 
     this.grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
 
-    this.gameState = {
+    this.state = {
       started: false,
       ended: false
     };
@@ -27,108 +27,78 @@ class Game {
 
   }
 
-  start(cb) {
-
-    if (this.gameState.started || this.gameState.ended) {
-      return cb('game already started');
-    }
-
-    this.gameState.started = true;
-
-    return cb(null);
-
-  }
-
-  end(cb) {
-
-    if (this.gameState.ended) {
-      return cb('game already ended');
-    }
-
-    this.gameState.ended = true;
+  addSnake(id) {
+    this.grid.snakes.push(new Snake(id));
   }
 
   placeSnakes() {
-
     // fill snakes with emty points
     // to define length
-    this.grid.snakes.forEach(snake => {
+    const STEP = 1;
 
-      for (let i = 0; i < SNAKE_LENGTH; ++i) {
-        snake.addPointTail(null, null, 'snake');
+    this.grid.snakes.forEach((snake) => {
+      for (let i = 0; i < SNAKE_LENGTH; i += STEP) {
+        snake.addPointTail(new Point(null, null, 'snake'));
       }
-
     });
 
     // add points to snakes (aka place on grid)
     const WIDTH_NORMALIZER = 1;
     const HEIGHT_NORMILIZER = 2;
 
-    const snakeWidthConstPos = Math.floor(this.grid.width / (this.grid.snakes.length + WIDTH_NORMALIZER));
+    const snakeWidthConstPos = Math.floor(this.grid.width / (SNAKE_LENGTH + WIDTH_NORMALIZER));
     const snakeHeightConstPos = Math.floor(this.grid.height / HEIGHT_NORMILIZER);
 
-    this.snake.forEach((snake, num) => {
-
+    this.grid.snakes.forEach((snake, num) => {
       // define the snake width position
-      const snakeWidthPos = snakeWidthConstPos * num;
+      const snakeWidthPos = snakeWidthConstPos * (num + STEP);
 
-      for (let i = 0; i < snake.length; i += 1) {
-
+      for (let i = 0; i < snake.body.length; i += STEP) {
         snake.body[i].x = snakeWidthPos;
         snake.body[i].y = snakeHeightConstPos - i;
-
       }
-
-      // add snakes to the grid
-      this.grid.objects.push(snake);
-
     });
-
   }
 
-  // generate point and place it on grid
-  placeFood() {
-    this.grid.placeRandomPoint('food');
+  placeFoodRandom() {
+    this.grid.placeFoodRandom('food');
   }
 
-  // playerData = { playerId, direction }
-  writeAction(playerData, cb) {
+  start() {
+    this.state.started = true;
+  }
 
-    let error = null;
+  end() {
+    this.state.ended = true;
+  }
 
+
+  writeAction(id, direction) {
     // find snake by id
-    this.grid.snakes.some(snake => {
-
+    this.grid.snakes.some((snake) => {
       // find snake that bound to player
-      if (snake.id !== playerData.id) {
+      if (snake.id !== id) {
         return false;
       }
       // check if direction not changed
-      if (snake.direction === playerData.direction) {
+      if (snake.direction === direction) {
         return true;
       }
-      if (!snake.isValidDirection(playerData.direction)) {
-        error = 'invalid input direction';
+      if (!snake.isValidDirection(direction)) {
         return true;
       }
-      snake.direction = playerData.direction
+      snake.direction = direction;
       return true;
-
     });
-
-    return cb(error);
-
   }
 
   makeSnakesMove() {
-
     const STEP = 1;
     const START_COORDINATE = 1;
     const HEAD = 0;
 
-    this.grid.snakes.forEach(snake => {
-
-      const head = new Point(
+    this.grid.snakes.forEach((snake) => {
+      const newHeadPoint = new Point(
         snake.body[HEAD].x,
         snake.body[HEAD].y,
         snake.body[HEAD].type
@@ -137,40 +107,46 @@ class Game {
       switch (snake.direction) {
       case 'up':
         if (snake.body[HEAD].y === this.grid.height) {
-          head.y = START_COORDINATE;
+          newHeadPoint.y = START_COORDINATE;
         } else {
-          head.y += STEP;
+          newHeadPoint.y += STEP;
         }
         break;
       case 'down':
         if (snake.body[HEAD].y === START_COORDINATE) {
-          head.y = this.grid.height;
+          newHeadPoint.y = this.grid.height;
         } else {
-          head.y -= STEP;
+          newHeadPoint.y -= STEP;
         }
         break;
       case 'left':
         if (snake.body[HEAD].x === START_COORDINATE) {
-          head.x = this.grid.width;
+          newHeadPoint.x = this.grid.width;
         } else {
-          head.x += STEP;
+          newHeadPoint.x -= STEP;
         }
         break;
       case 'right':
         if (snake.body[HEAD].x === this.grid.width) {
-          head.x = START_COORDINATE;
+          newHeadPoint.x = START_COORDINATE;
         } else {
-          head.x += STEP;
+          newHeadPoint.x += STEP;
         }
         break;
       default:
         break;
       }
 
-      snake.addPointHead(head);
+      // make changes add write them to diff object
+      snake.addPointHead(newHeadPoint);
+      this.diffs.plusPt.push(new Point(
+        newHeadPoint.x,
+        newHeadPoint.y,
+        newHeadPoint.type
+      ));
       // check if head is the same coordinates as food
-      if (!grid.isFood(head)) {
-        snake.removePointTail();
+      if (!this.grid.isFood(newHeadPoint)) {
+        this.diffs.minusPt.push(snake.removePointTail());
       }
 
     });
@@ -178,99 +154,53 @@ class Game {
   }
 
   eatFood() {
-
     const HEAD = 0;
 
     // for each food check if it was eaten by snake
     // remove all eaten food
-    this.grid.food = this.grid.food.filter(foodPoint => {
-
-      let isFoodSameCoordinateAsHead = false
-      this.grid.snakes.some(snake => {
-
+    this.grid.food = this.grid.food.filter((foodPoint) =>
+      !this.grid.snakes.some((snake) => {
         if (foodPoint.isSameCoordinates(snake.body[HEAD])) {
-          isFoodSameCoordinateAsHead = true;
-          return true
+          this.diffs.minusPt.push(foodPoint);
+          return true;
         }
+
         return false;
-
-      });
-
-      return isFoodSameCoordinateAsHead;
-
-    });
+      })
+    );
 
   }
 
   findCrashedSnakesId() {
-
-    let crashedSnakeIds = [];
     const HEAD = 0;
 
-    this.grid.snakes.forEach(snakeToCheck => {
-
-      this.grid.snakes.some(otherSnake => {
-
+    this.grid.snakes.forEach((snakeToCheck) => {
+      this.grid.snakes.some((otherSnake) => {
         // skip itself
-        if (snakeToCheck.id = otherSnake.id) {
+        if (snakeToCheck.id === otherSnake.id) {
           return false;
         }
 
+        // iterete on every point of other snake
         // if the points is the same, write id to be removed
-        return otherSnake.some(otherSnakePoint => {
-          if (otherSnakePoint.isSameCoordinates(snakeToCheck[HEAD])) {
-            crashedSnakeIds.push(snakeToCheck.id);
+        return otherSnake.body.some((otherSnakePoint) => {
+          if (otherSnakePoint.isSameCoordinates(snakeToCheck.body[HEAD])) {
+            this.diffs.id.push(snakeToCheck.id);
             return true;
           }
+
           return false;
         });
-
       });
-
     });
-
-    return crashedSnakeIds;
-
   }
 
-  removeCrashedSnakes(ids) {
-
-    ids.forEach(id => {
-      this.grid.removeSnake(id);
-    });
-
+  removeCrashedSnakes() {
+    this.diffs.id.forEach((id) => this.grid.removeSnake(id));
   }
 
-  addSnake(id) {
-    this.grid.snakes.push(new Snake(id));
-  }
 
 }
 
 
 module.exports = Game;
-
-// // add player
-// Game.addSnake(id)
-
-// // start game
-// Game.placeSnakes()
-// Game.placeFood()
-// Game.start(error => {})
-
-// // player input
-// Game.wrieAction(playerData, error => {})
-
-// // make step
-// Game.makeSnakesMove();
-// Game.eatFood();
-
-// let ids = Game.findCrashedSnakes();
-// Game.removeCrashedSnakes(ids);
-
-// if (!Game.grid.food[0]) {
-//   Game.placeFood();
-// }
-
-// // end game
-// Game.end(error => {})
