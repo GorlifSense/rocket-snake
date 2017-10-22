@@ -7,7 +7,7 @@
     "start": "node app.js",
     "pretest": "npm run eslint",
     "test": "npm run coverage",
-    "coverage": "istanbul cover ./node_modules/.bin/_mocha",
+    "coverage": "istanbul cover ./node_modules/.bin/_mocha -- --recursive",
     "eslint": "eslint . --max-warnings 10",
     "build": "webpack",
     "docker": "nodemon -L app.js"
@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/GorlifSense/rocket-snake#readme",
   "dependencies": {
+    "chai": "^4.1.2",
     "css-loader": "^0.28.7",
     "express": "^4.16.2",
     "konva": "^1.7.2",

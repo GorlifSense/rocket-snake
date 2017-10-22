@@ -1,26 +1,19 @@
 'use strict';
 
-class Point {
-  constructor(x, y, type) {
-    this.x = x;
-    this.y = y;
-    // type could be: snake, food, rocket ...
-    this.type = type;
-  }
-}
-
 class Snake {
-  constructor(name) {
-    this.name = name;
+
+  constructor(id) {
+    this.id = id;
     this.body = [];
+    this.direction = '';
   }
 
   addPointHead(point) {
-    this.body.unshift(point);
+    return this.body.unshift(point);
   }
 
   addPointTail(point) {
-    this.body.push(point);
+    return this.body.push(point);
   }
 
   removePointTail() {
@@ -28,7 +21,7 @@ class Snake {
   }
 
   // check if input direction is valid depends on snake position
-  checkDirection(direction) {
+  isValidDirection(direction) {
     const HEAD = 0;
     const PREHEAD = 1;
     const STEP = 1;
@@ -48,9 +41,4 @@ class Snake {
   }
 }
 
-module.exports = {
-
-  Snake,
-  Point
-
-};
+module.exports = Snake;
