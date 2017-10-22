@@ -1,22 +1,52 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
 version: 2
 jobs:
   build:
     docker:
-      - image: docker:17.07.0-ce-git
+      # specify the version you desire here
+      - image: circleci/node:8.7
 
-    # python:
-    #   version: 2.7.12
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
     working_directory: ~/repo
+
     steps:
       - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      # run tests!
+      - run: npm test
+
+      # deploy
       - setup_remote_docker
-      - run:
-          name: Install dependencies
+
+      - deploy
+          name: Deploying docker image
           command: |
-            apk add --no-cache \
-              py-pip
-            pip install \
-              docker-compose==1.16.1 \
-              awscli==1.11.170
-      - run: docker-compose build
-      - run: docker run -it rocket-snake /bin/sh -c "istanbul cover ./node_modules/.bin/_mocha"
+            if [ "${CIRCLE_BRANCH}" == "master" || "$(CIRCLE_BRANCH)" == "artem/circle" ]; then
+              apk install py-pip
+              pip install awscli
+              login="$(aws ecr get-login)"
+              $(login)
+              docker tag app "${ECR_ENDPOINT}/app:${CIRCLE_SHA1}"
+              docker push "${ECR_ENDPOINT}/app:${CIRCLE_SHA1}"
+            fi
