@@ -32,7 +32,6 @@ for (let x = 0; x < width; x += step) {
 const test = () => {
   const grid = new Grid(params);
 };
-
 document.addEventListener('DOMContentLoaded', test);
 
 

@@ -53,4 +53,3 @@ export default class Canvas {
     return this.stage.draw();
   }
 }
-;
