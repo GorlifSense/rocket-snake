@@ -1,10 +1,9 @@
 import _ from 'lodash';
-import Konva from 'konva';
+import {Group, Rect} from 'konva';
 
 export default class Snake {
-  constructor(data, grid) {
-    const {color, id, path} = data;
-    const {scale, layers} = grid;
+  constructor({color, id, path}, grid) {
+    const {scale} = grid;
 
     this.grid = grid;
     this.id = id;
@@ -12,23 +11,19 @@ export default class Snake {
     this.color = color || 'red';
     this.length = path.length;
     this.speed = 1;
-    this.parts = [];
-    this.growParts = 0;
-    this.layer = new Konva.Layer();
+    this.canvasObject = new Group();
     _.forEach(path, (coords) => {
-      const snakePart = new Konva.Rect({
+      const snakePart = new Rect({
         x: coords.x * scale,
         y: coords.y * scale,
         width: scale,
         height: scale,
-        fill: color
+        fill: this.color
       });
 
-      this.parts.push(snakePart);
-      this.layer.add(snakePart);
+      this.canvasObject.add(snakePart);
     });
-    layers[id] = this.layer;
-    grid.identifiers[id] = this.canvasObject;
+    this.grid.canvas.addObject('snakes', this.canvasObject);
   }
   drawParts() {
     // TODO works but looks awefull
@@ -57,7 +52,7 @@ export default class Snake {
     //   stage.draw();
     // });
     // animation.start();
-    const {scale, stage} = this.grid;
+    const {scale, canvas} = this.grid;
     const tail = this.growParts ? this.path.shift() : null;
 
     _.forEach(this.path, (coords, index) => {
@@ -70,7 +65,7 @@ export default class Snake {
       });
     });
     if (tail) {
-      const tailPart = new Konva.Rect({
+      const tailPart = new Rect({
         x: tail.x,
         y: tail.y,
         width: scale,
@@ -78,11 +73,10 @@ export default class Snake {
         color: this.color
       });
 
-      this.parts.push(tailPart);
-      this.layer.add(tailPart);
+      this.canvasObject.add(tailPart);
       this.growParts -= 1;
     }
-    stage.draw();
+    canvas.draw();
   }
   move(cell) {
     // tail is going to be a new part
