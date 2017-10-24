@@ -33,8 +33,10 @@ export default class Snake {
     //   const second = 1000;
     //   const totalFramesForAnimation = Math.floor(second * this.speed / frameRate);
     //   const step = Math.ceil(scale / totalFramesForAnimation);
+    //   const {children} = this.canvasObject;
+    //
     //   _.forEach(this.path, (coords, index) => {
-    //     const part = this.parts[index];
+    //     const part = children[index];
     //     const {x: goalX, y: goalY} = coords;
     //     const {x: currentX, y: currentY} = part.attrs;
     //     const distanceX = goalX * scale - currentX;
@@ -54,9 +56,10 @@ export default class Snake {
     // animation.start();
     const {scale, canvas} = this.grid;
     const tail = this.growParts ? this.path.shift() : null;
+    const {children} = this.canvasObject;
 
     _.forEach(this.path, (coords, index) => {
-      const part = this.parts[index];
+      const part = children[index];
       const {x, y} = coords;
 
       part.setAttrs({

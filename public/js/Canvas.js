@@ -10,6 +10,7 @@ export default class Canvas {
       width: width * scale,
       height: height * scale
     });
+    // we need to add any canvas object to certain layer, so we need to store links to all of them
     this.layers = {};
     this.addLayer('background');
     this.drawGrid();
@@ -19,6 +20,7 @@ export default class Canvas {
     const {width, height, scale} = this.grid;
     const groupGrid = new Group();
 
+    // bunch of rectangles on background grid layer
     for (let i = 0; i < width * height; i += increment) {
       const fullYPoints = Math.floor(i / height);
       const fullXPoints = i - fullYPoints * height;
@@ -37,13 +39,15 @@ export default class Canvas {
     this.draw();
   }
   addObject(layerName, object) {
+    // if there's no layer we should create it
     const layer = this.layers[layerName] || this.addLayer(layerName);
 
     layer.add(object);
     this.draw();
   }
   addLayer(id) {
-    const layer = new Layer();
+    // layer by itself does not require id parameter but we may use later in DOM
+    const layer = new Layer({id});
 
     this.layers[id] = layer;
     this.stage.add(layer);

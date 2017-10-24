@@ -35,14 +35,18 @@ export default class Grid {
   addObject(object) {
     const {id, type, path} = object;
     const allSpaceIsFree = _.every(path, (coords) => this.pointIsEmpty(coords));
+
     if (allSpaceIsFree) {
+      // this ensures that everything added to canvas also will be valid class so we can use it both ways
       const Constructor = INSTANCE_TYPES[type];
+
       if (Constructor) {
         const instance = new Constructor(object, this);
 
         _.forEach(path, (coords) => {
           this.setPoint(coords);
         });
+        //
         this.identifiers[id] = instance;
         return instance;
       }
