@@ -13,12 +13,14 @@ export default class Canvas {
     // we need to add any canvas object to certain layer, so we need to store links to all of them
     this.layers = {};
     this.addLayer('background');
+    this.layers.background.setZIndex(0);
     this.drawGrid();
   }
   drawGrid() {
     const increment = 1;
     const {width, height, scale} = this.grid;
     const groupGrid = new Group();
+    const background = this.layers.background;
 
     // bunch of rectangles on background grid layer
     for (let i = 0; i < width * height; i += increment) {
@@ -35,7 +37,7 @@ export default class Canvas {
 
       groupGrid.add(rect);
     }
-    this.layers.background.add(groupGrid);
+    background.add(groupGrid);
     this.draw();
   }
   addObject(layerName, object) {
@@ -51,6 +53,7 @@ export default class Canvas {
 
     this.layers[id] = layer;
     this.stage.add(layer);
+    layer.setZIndex(1);
     return layer;
   }
   draw() {

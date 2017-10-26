@@ -1,5 +1,8 @@
 import '../css/style.scss';
 import Game from './Game';
+import Controller from './Controller';
+
+const inputElement = document.getElementById('controller-input');
 
 const width = 50;
 const height = 50;
@@ -11,8 +14,12 @@ const params = {
     width,
     height
   },
-  objects: snakes
+  objects: snakes,
+  ticks: {
+    10: 'move'
+  }
 };
+
 
 for (let x = 0; x < width; x += step) {
   const ONE = 1;
@@ -32,8 +39,12 @@ for (let x = 0; x < width; x += step) {
 }
 
 const test = () => {
-  const grid = new Game(params);
+  const game = new Game(params);
+  const controller = new Controller(inputElement);
+
+  // game.start();
 };
+
 document.addEventListener('DOMContentLoaded', test);
 
 

@@ -3,15 +3,19 @@ import Grid from './Grid';
 
 /*
   Available hooks :
-    GAME_BEFORE_START,
-    GAME_AFTER_START,
-    GAME_BEFORE_PAUSED,
-    GAME_AFTER_PAUSED,
-    GAME_BEFORE_RESUMED,
+    GAME_BEFORE_START
+    GAME_AFTER_START
+    GAME_BEFORE_PAUSED
+    GAME_AFTER_PAUSED
+    GAME_BEFORE_RESUMED
     GAME_AFTER_RESUMED
-    GAME_BEFORE_END,
+    GAME_BEFORE_END
     GAME_AFTER_END
- */
+
+    TICK_START
+    TICK_END
+*/
+const TICK_START = 1;
 
 export default class Game {
   constructor({id, grid, speed, ticks, objects}) {
@@ -20,12 +24,13 @@ export default class Game {
     this.flow = {
       speed,
       ticks,
-      currentTick: 0,
+      currentTick: TICK_START,
       identifier: null,
       status: 'pending'
     };
     this.grid = new Grid({grid, objects});
     this.hooks = {};
+    this.identifiers = this.grid.identifiers;
   }
   setHook(hookName, func) {
     if (_.isFunction(func)) {
@@ -94,6 +99,7 @@ export default class Game {
     const ONE = 1;
     const totalTicks = ticks.length - ONE;
 
+    this.runHook('TICK_START');
     _.forEach(identifiers, (identifier) => {
       const action = identifier.actions[currentAction];
 
@@ -103,8 +109,9 @@ export default class Game {
     });
 
     if (currentTick === totalTicks) {
-      flow.currentTick = 0;
+      flow.currentTick = TICK_START;
     }
     flow.currentTick += 1;
+    this.runHook('TICK_END');
   }
 }
