@@ -23,7 +23,7 @@ export default class Controller {
     this.element.focus();
   }
   bindKey(key, action) {
-    this.actions[key] = action;
+    this.bindings[key] = action;
   }
   addAction(actionName, callback) {
     if (_.isString(actionName) && _.isFunction(callback)) {

@@ -8,6 +8,7 @@ const inputElement = document.getElementById('controller-input');
 const width = 40;
 const height = 40;
 const me = 'player1';
+const P_KEY = 80;
 
 const params = {
   grid: {
@@ -63,6 +64,14 @@ const test = () => {
   controller.addAction('down', () => snake.changeDirection('d'));
   controller.addAction('left', () => snake.changeDirection('l'));
   controller.addAction('right', () => snake.changeDirection('r'));
+  controller.bindKey(P_KEY, 'pause');
+  controller.addAction('pause', () => {
+    if (game.flow.status === 'paused') {
+      game.resume();
+    } else {
+      game.pause();
+    }
+  });
 
   game.start();
 };
