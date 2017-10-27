@@ -28,7 +28,7 @@ export default class Canvas {
     const loadImage = new Promise((res) => {
       const image = new Image();
 
-      image.src = 'https://img00.deviantart.net/1125/i/2016/149/8/8/star_wars_the_force_awakens_characters_8_bit_by_lustriouscharming-da49hz6.png';
+      image.src = 'http://tse4.mm.bing.net/th?id=OIP.CjSb4GIpSUfuXuA5CqJ1dgEsC8&w=300&h=188&pid=1.1';
       image.onload = res(image);
     });
 
@@ -41,8 +41,8 @@ export default class Canvas {
         strokeWidth: 0,
         fillPatternImage: image,
         fillPatternScale: {
-          x: 0.5,
-          y: 0.5
+          x: 1,
+          y: 1
         },
         opacity: 0.3
       });
