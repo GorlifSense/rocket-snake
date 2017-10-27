@@ -7,3 +7,4 @@ parserOptions:
 rules:
   no-ternary: 0
   no-warning-comments: 0
+  no-useless-call: 0
