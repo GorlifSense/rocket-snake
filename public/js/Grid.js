@@ -23,18 +23,22 @@ export default class Grid {
     });
   }
   setPoint({x, y} = {}, value) {
-    this.space[x + this.with * y] = value;
+    this.space[x + this.width * y] = value;
   }
   getPoint({x, y} = {}) {
     return this.space[x + this.width * y];
   }
   pointIsEmpty({x, y} = {}) {
-    return !this.getPoint(x, y);
+    return !this.getPoint({x, y});
   }
-
+  pointIsOnTheGrid({x, y} = {}) {
+    return x >= 0 && x < this.width && y >= 0 && y < this.height;
+  }
   addObject(object) {
     const {id, type, path} = object;
-    const allSpaceIsFree = _.every(path, (coords) => this.pointIsEmpty(coords));
+    const allSpaceIsFree = _.every(path, (coords) => {
+      return this.pointIsEmpty(coords) && this.pointIsOnTheGrid;
+    });
 
     if (allSpaceIsFree) {
       // this ensures that everything added to canvas also will be valid class so we can use it both ways
@@ -44,13 +48,13 @@ export default class Grid {
         const instance = new Constructor(object, this);
 
         _.forEach(path, (coords) => {
-          this.setPoint(coords);
+          this.setPoint(coords, instance);
         });
-        //
         this.identifiers[id] = instance;
         return instance;
       }
+      throw new Error(`Cannot find instance of type : ${type}`);
     }
-    throw new Error('place is already occupied by another object');
+    throw new Error('Place is already occupied by another object');
   }
 }

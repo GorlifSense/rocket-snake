@@ -19,11 +19,11 @@ export default class Controller {
     element.addEventListener('keyup', this.tryAction.bind(this));
     element.focus();
   }
-  bindKey(key, action) {
-    this.actions[key] = action;
-  }
   focus() {
     this.element.focus();
+  }
+  bindKey(key, action) {
+    this.actions[key] = action;
   }
   addAction(actionName, callback) {
     if (_.isString(actionName) && _.isFunction(callback)) {

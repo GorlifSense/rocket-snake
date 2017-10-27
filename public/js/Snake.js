@@ -1,8 +1,16 @@
 import _ from 'lodash';
 import {Group, Rect} from 'konva';
+import Vector from './Vector';
+
+const INVERSE_DIRECTIONS = {
+  'u': 'd',
+  'd': 'u',
+  'l': 'r',
+  'r': 'l'
+};
 
 export default class Snake {
-  constructor({color, id, path}, grid) {
+  constructor({color, id, path, direction}, grid) {
     const {scale} = grid;
 
     this.grid = grid;
@@ -10,6 +18,7 @@ export default class Snake {
     this.path = path;
     this.color = color || 'red';
     this.length = path.length;
+    this.direction = direction || 'd';
     this.speed = 1;
     this.canvasObject = new Group();
     _.forEach(path, (coords) => {
@@ -81,12 +90,47 @@ export default class Snake {
     }
     canvas.draw();
   }
-  move(cell) {
+  action(type) {
+    if (type === 'move') {
+      const vector = Vector.fromDirection(this.direction);
+      const head = _.last(this.path);
+      const cell = vector.plus(head);
+      const {grid} = this;
+      const isEmpty = grid.pointIsEmpty(cell);
+      const onTheGrid = grid.pointIsOnTheGrid(cell);
+
+      if (!isEmpty) {
+        throw new Error(`Something is on the way ${JSON.stringify(cell)}`);
+      }
+      if (!onTheGrid) {
+        throw new Error(`Point is out of grid ${JSON.stringify(cell)}`);
+      }
+      this.moveTo(cell);
+    }
+  }
+  changeDirection(newDirection) {
+    const inverse = INVERSE_DIRECTIONS[this.direction];
+    const correctDirection = _.get(INVERSE_DIRECTIONS, newDirection);
+
+    if (!correctDirection) {
+      throw new Error(`Can't resolve direction ${newDirection}`);
+    }
+    if (newDirection === inverse) {
+      throw new Error('Cannot move backwards');
+    }
+    this.direction = newDirection;
+  }
+  moveTo(cell) {
+    const {grid} = this;
+
     // tail is going to be a new part
     if (!this.growParts) {
-      this.path.shift();
+      const point = this.path.shift();
+
+      grid.setPoint(point);
     }
     this.path.push(cell);
+    grid.setPoint(cell, this);
     this.drawParts();
   }
   grow(size) {

@@ -1,5 +1,8 @@
 import {Layer, Rect, Stage, Group} from 'konva';
 
+const BACK_LAYER_INDEX = 0;
+const FRONT_LAYERS_INDEX = 1;
+
 export default class Canvas {
   constructor(grid) {
     const {width, height, scale} = grid;
@@ -13,7 +16,7 @@ export default class Canvas {
     // we need to add any canvas object to certain layer, so we need to store links to all of them
     this.layers = {};
     this.addLayer('background');
-    this.layers.background.setZIndex(0);
+    this.layers.background.setZIndex(BACK_LAYER_INDEX);
     this.drawGrid();
   }
   drawGrid() {
@@ -53,7 +56,7 @@ export default class Canvas {
 
     this.layers[id] = layer;
     this.stage.add(layer);
-    layer.setZIndex(1);
+    layer.setZIndex(FRONT_LAYERS_INDEX);
     return layer;
   }
   draw() {
