@@ -5,8 +5,8 @@ import Controller from './Controller';
 
 const inputElement = document.getElementById('controller-input');
 
-const width = 40;
-const height = 40;
+const width = 100;
+const height = 100;
 const me = 'player1';
 const P_KEY = 80;
 
@@ -47,8 +47,8 @@ const params = {
     nickname: 'Player 1',
     property: 'player1snake'
   }],
-  ticks: _.fill(new Array(12), 'move'),
-  tps: 12
+  ticks: _.fill(new Array(40), 'move'),
+  tps: 40
 };
 
 
