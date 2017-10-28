@@ -1,4 +1,8 @@
-import {Layer, Rect, Stage, Group} from 'konva';
+import {Layer, Rect, Stage} from 'konva';
+
+const BACK_LAYER_INDEX = 1;
+const PAUSE_LAYER_INDEX = 0;
+const FRONT_LAYERS_INDEX = 2;
 
 export default class Canvas {
   constructor(grid) {
@@ -13,32 +17,39 @@ export default class Canvas {
     // we need to add any canvas object to certain layer, so we need to store links to all of them
     this.layers = {};
     this.addLayer('background');
-    this.layers.background.setZIndex(0);
+    this.addLayer('pause');
+    this.layers.background.setZIndex(BACK_LAYER_INDEX);
+    this.layers.pause.setZIndex(PAUSE_LAYER_INDEX);
     this.drawGrid();
   }
   drawGrid() {
-    const increment = 1;
     const {width, height, scale} = this.grid;
-    const groupGrid = new Group();
     const background = this.layers.background;
+    const loadImage = new Promise((res) => {
+      const image = new Image();
 
-    // bunch of rectangles on background grid layer
-    for (let i = 0; i < width * height; i += increment) {
-      const fullYPoints = Math.floor(i / height);
-      const fullXPoints = i - fullYPoints * height;
-      const rect = new Rect({
-        x: fullXPoints * scale,
-        y: fullYPoints * scale,
-        width: scale,
-        height: scale,
-        strokeWidth: 1,
-        stroke: 'rgba(0,0,0,.1)'
+      image.src = 'img/background.jpg';
+      image.onload = res(image);
+    });
+
+    return loadImage.then((image) => {
+      const Rectangle = new Rect({
+        x: 0,
+        y: 0,
+        width: width * scale,
+        height: height * scale,
+        strokeWidth: 0,
+        fillPatternImage: image,
+        fillPatternScale: {
+          x: 1,
+          y: 1
+        },
+        opacity: 0.3
       });
 
-      groupGrid.add(rect);
-    }
-    background.add(groupGrid);
-    this.draw();
+      background.add(Rectangle);
+      this.draw();
+    });
   }
   addObject(layerName, object) {
     // if there's no layer we should create it
@@ -53,7 +64,7 @@ export default class Canvas {
 
     this.layers[id] = layer;
     this.stage.add(layer);
-    layer.setZIndex(1);
+    layer.setZIndex(FRONT_LAYERS_INDEX);
     return layer;
   }
   draw() {
