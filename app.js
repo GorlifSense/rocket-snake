@@ -11,7 +11,7 @@ const io = require('socket.io')(server);
 const favicon = require('serve-favicon');
 
 const Game = require('./models/Game');
-// const log = require('./app/utils/logger');
+const log = require('./app/utils/logger');
 
 // Expose all static resources in /public
 app.use(express.static(path.join(__dirname, 'public')));
@@ -26,15 +26,15 @@ app.set('port', SERVER_PORT);
 
 // Start Express server
 server.listen(app.get('port'), () => {
-  // log.info('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
+  log.info('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
 });
 
 io.on('connection', (socket) => {
-  // log.debug('SOCKET Connection detected', socket);
+  log.debug('SOCKET Connection detected', socket);
 
   socket.on('message', (message) => {
-    // log.info('-> incoming message: %s', message);
-    // log.info('<- outgoing message: %s', message);
+    log.info('-> incoming message: %s', message);
+    log.info('<- outgoing message: %s', message);
     socket.write(message);
   });
 
