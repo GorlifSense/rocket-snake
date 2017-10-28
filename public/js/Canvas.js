@@ -28,7 +28,7 @@ export default class Canvas {
     const loadImage = new Promise((res) => {
       const image = new Image();
 
-      image.src = 'http://tse4.mm.bing.net/th?id=OIP.CjSb4GIpSUfuXuA5CqJ1dgEsC8&w=300&h=188&pid=1.1';
+      image.src = 'img/background.jpg';
       image.onload = res(image);
     });
 

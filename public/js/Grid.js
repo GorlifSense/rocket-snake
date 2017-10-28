@@ -1,9 +1,12 @@
 import _ from 'lodash';
 import Canvas from './Canvas';
+import Food from './Food';
 import Snake from './Snake';
 
+const COORDS_MIN_POINT = 0;
 const INSTANCE_TYPES = {
-  'snake': Snake
+  'snake': Snake,
+  'food': Food
 };
 
 export default class Grid {
@@ -32,13 +35,11 @@ export default class Grid {
     return !this.getPoint({x, y});
   }
   pointIsOnTheGrid({x, y} = {}) {
-    return x >= 0 && x < this.width && y >= 0 && y < this.height;
+    return x >= COORDS_MIN_POINT && x < this.width && y >= COORDS_MIN_POINT && y < this.height;
   }
   addObject(object) {
     const {id, type, path} = object;
-    const allSpaceIsFree = _.every(path, (coords) => {
-      return this.pointIsEmpty(coords) && this.pointIsOnTheGrid;
-    });
+    const allSpaceIsFree = _.every(path, (coords) => this.pointIsEmpty(coords) && this.pointIsOnTheGrid);
 
     if (allSpaceIsFree) {
       // this ensures that everything added to canvas also will be valid class so we can use it both ways
@@ -56,5 +57,17 @@ export default class Grid {
       throw new Error(`Cannot find instance of type : ${type}`);
     }
     throw new Error('Place is already occupied by another object');
+  }
+  removeObject(id) {
+    const object = this.identifiers[id];
+
+    if (_.isObject(object)) {
+      const {path} = object;
+
+      _.forEach(path, (coords) => {
+        this.setPoint(coords);
+      });
+      _.unset(this.identifiers, id);
+    }
   }
 }

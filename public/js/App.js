@@ -5,10 +5,11 @@ import Controller from './Controller';
 
 const inputElement = document.getElementById('controller-input');
 
-const width = 100;
-const height = 100;
+const width = 50;
+const height = 50;
 const me = 'player1';
 const P_KEY = 80;
+const tps = 20;
 
 const params = {
   grid: {
@@ -19,15 +20,7 @@ const params = {
     path: [
       {
         x: 5,
-        y: 5
-      },
-      {
-        x: 5,
-        y: 6
-      },
-      {
-        x: 5,
-        y: 7
+        y: 9
       },
       {
         x: 5,
@@ -35,7 +28,15 @@ const params = {
       },
       {
         x: 5,
-        y: 9
+        y: 7
+      },
+      {
+        x: 5,
+        y: 6
+      },
+      {
+        x: 5,
+        y: 5
       }
     ],
     color: 'green',
@@ -47,13 +48,14 @@ const params = {
     nickname: 'Player 1',
     property: 'player1snake'
   }],
-  ticks: _.fill(new Array(40), 'move'),
-  tps: 40
+  ticks: _.fill(new Array(tps), 'move'),
+  tps
 };
 
 
 const test = () => {
   const game = new Game(params);
+  const {grid} = game;
   const controller = new Controller(inputElement);
   const player = game.getPlayer(me);
   const snake = player.getProperty();
@@ -70,6 +72,35 @@ const test = () => {
       game.resume();
     } else {
       game.pause();
+    }
+  });
+
+  // Add something for snake to grow
+  const foodId = 'simpleFood';
+  const addRandomFood = () => {
+    const getRandomCoords = () => {
+      const x = Math.floor(grid.width * Math.random());
+      const y = Math.floor(grid.height * Math.random());
+
+      return {x, y};
+    };
+    let coords = getRandomCoords();
+
+    while (!grid.pointIsEmpty(coords)) {
+      coords = getRandomCoords();
+    }
+    grid.addObject({
+      type: 'food',
+      id: foodId,
+      path: [coords]
+    });
+  };
+
+  game.setHook('TICK_END', () => {
+    const food = grid.identifiers[foodId];
+
+    if (_.isEmpty(food)) {
+      addRandomFood();
     }
   });
 
