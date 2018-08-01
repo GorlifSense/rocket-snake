@@ -7,7 +7,7 @@
     "start": "node app.js",
     "pretest": "npm run eslint",
     "test": "npm run coverage",
-    "coverage": "istanbul cover ./node_modules/.bin/_mocha -- --recursive",
+    "coverage": "istanbul cover _mocha -- --recursive",
     "eslint": "eslint . --max-warnings 10",
     "build": "webpack",
     "docker": "nodemon -L app.js"
