@@ -7,7 +7,7 @@
     "start": "node app.js",
     "pretest": "npm run eslint",
     "test": "npm run coverage",
-    "coverage": "istanbul cover _mocha -- --recursive",
+    "coverage": "istanbul cover _mocha -- --recursive --exit",
     "eslint": "eslint . --max-warnings 10",
     "build": "webpack",
     "docker": "nodemon -L app.js"
@@ -33,7 +33,6 @@
   },
   "homepage": "https://github.com/GorlifSense/rocket-snake#readme",
   "dependencies": {
-    "chai": "^4.1.2",
     "css-loader": "^0.28.7",
     "express": "^4.16.2",
     "konva": "^1.7.2",
@@ -45,13 +44,14 @@
     "socket.io": "^2.0.3",
     "style-loader": "^0.19.0",
     "webpack": "^3.7.1",
-    "winston": "^2.4.0"
+    "winston": "^3.0.0-rc0"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
     "eslint": "^4.8.0",
     "istanbul": "^0.4.5",
     "mocha": "^4.0.1",
-    "chai": "^4.1.2",
+    "socket.io-client": "^2.0.3",
     "supertest": "^3.0.0"
   }
 }
